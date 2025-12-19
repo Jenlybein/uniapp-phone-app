@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket 测试工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            color: #555;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #007aff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .status.connected {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status.disconnected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .status.connecting {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .log {
+            height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WebSocket 测试工具</h1>
+        
+        <div class="section">
+            <h2>连接状态</h2>
+            <div class="status disconnected" id="status">未连接</div>
+        </div>
+
+        <div class="section">
+            <h2>WebSocket 服务器地址</h2>
+            <input type="text" id="wsUrl" value="ws://localhost:8080" placeholder="WebSocket 服务器地址">
+            <button id="connectBtn">连接</button>
+            <button id="disconnectBtn">断开连接</button>
+        </div>
+
+        <div class="section">
+            <h2>发送文本消息</h2>
+            <textarea id="textContent" rows="4" placeholder="请输入要发送的文本..."></textarea>
+            <button id="sendTextBtn">发送文本</button>
+        </div>
+
+        <div class="section">
+            <h2>发送图片消息</h2>
+            <input type="file" id="imageFile" accept="image/*">
+            <button id="sendImageBtn">发送图片</button>
+        </div>
+
+        <div class="section">
+            <h2>日志</h2>
+            <div class="log" id="log"></div>
+        </div>
+    </div>
+
+    <script>
+        // DOM 元素
+        const statusElement = document.getElementById('status');
+        const wsUrlInput = document.getElementById('wsUrl');
+        const connectBtn = document.getElementById('connectBtn');
+        const disconnectBtn = document.getElementById('disconnectBtn');
+        const textContentInput = document.getElementById('textContent');
+        const sendTextBtn = document.getElementById('sendTextBtn');
+        const imageFileInput = document.getElementById('imageFile');
+        const sendImageBtn = document.getElementById('sendImageBtn');
+        const logElement = document.getElementById('log');
+
+        // WebSocket 实例
+        let ws = null;
+
+        // 更新连接状态
+        function updateStatus(status) {
+            statusElement.textContent = status;
+            if (status.includes('已连接')) {
+                statusElement.className = 'status connected';
+            } else if (status.includes('连接中')) {
+                statusElement.className = 'status connecting';
+            } else {
+                statusElement.className = 'status disconnected';
+            }
+        }
+
+        // 添加日志
+        function addLog(message) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            const logItem = document.createElement('div');
+            logItem.innerHTML = `<strong>${timeString}</strong>: ${message}`;
+            logElement.appendChild(logItem);
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        // 连接 WebSocket 服务器
+        connectBtn.addEventListener('click', () => {
+            const url = wsUrlInput.value;
+            if (!url) {
+                addLog('请输入 WebSocket 服务器地址');
+                return;
+            }
+
+            try {
+                updateStatus('连接中...');
+                addLog(`正在连接到 ${url}`);
+
+                ws = new WebSocket(url);
+
+                ws.onopen = () => {
+                    updateStatus('已连接');
+                    addLog('WebSocket 连接已建立');
+                };
+
+                ws.onmessage = (event) => {
+                    addLog(`收到消息: ${event.data}`);
+                };
+
+                ws.onclose = () => {
+                    updateStatus('未连接');
+                    addLog('WebSocket 连接已关闭');
+                };
+
+                ws.onerror = (error) => {
+                    updateStatus('连接错误');
+                    addLog(`WebSocket 错误: ${error}`);
+                };
+            } catch (error) {
+                updateStatus('连接失败');
+                addLog(`连接失败: ${error}`);
+            }
+        });
+
+        // 断开连接
+        disconnectBtn.addEventListener('click', () => {
+            if (ws) {
+                ws.close();
+                ws = null;
+            }
+        });
+
+        // 发送文本消息
+        sendTextBtn.addEventListener('click', () => {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                addLog('WebSocket 未连接，请先连接');
+                return;
+            }
+
+            const content = textContentInput.value;
+            if (!content) {
+                addLog('请输入要发送的文本');
+                return;
+            }
+
+            const message = {
+                type: 'text',
+                content: content
+            };
+
+            ws.send(JSON.stringify(message));
+            addLog(`发送文本消息: ${content}`);
+            textContentInput.value = '';
+        });
+
+        // 发送图片消息
+        sendImageBtn.addEventListener('click', () => {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                addLog('WebSocket 未连接，请先连接');
+                return;
+            }
+
+            const file = imageFileInput.files[0];
+            if (!file) {
+                addLog('请选择要发送的图片');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const base64Image = e.target.result;
+                const message = {
+                    type: 'image',
+                    content: base64Image
+                };
+
+                ws.send(JSON.stringify(message));
+                addLog(`发送图片消息: ${file.name}`);
+            };
+
+            reader.onerror = (error) => {
+                addLog(`图片读取失败: ${error}`);
+            };
+
+            // 读取图片为 base64
+            reader.readAsDataURL(file);
+        });
+
+        // 初始化状态
+        updateStatus('未连接');
+    </script>
+</body>
+</html>
