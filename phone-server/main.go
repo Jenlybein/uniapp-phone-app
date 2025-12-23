@@ -21,6 +21,12 @@ func main() {
 	// 加载配置
 	cfg := configs.LoadConfig()
 
+	// 初始化数据库连接
+	db, err := configs.InitDatabase(cfg)
+	if err != nil {
+		utils.Fatalf("数据库初始化失败: %v", err)
+	}
+
 	// 创建消息广播服务并启动
 	broker := services.NewBroker()
 	go broker.Start()
@@ -28,14 +34,17 @@ func main() {
 	// 创建AI服务实例
 	aiService := services.NewAIService(cfg.AIConfig.ApiKey, cfg.AIConfig.BaseURL, cfg.AIConfig.Model)
 
+	// 创建认证处理器
+	authHandler := handlers.NewAuthHandler(db, cfg.JWTConfig.SecretKey, cfg.JWTConfig.ExpireHour)
+
 	// 创建HTTP处理器
-	httpHandler := handlers.NewHTTPHandler(broker)
+	httpHandler := handlers.NewHTTPHandler(broker, db, aiService)
 
 	// 创建WebSocket处理器
-	wsHandler := handlers.NewWebSocketHandler(broker, aiService)
+	wsHandler := handlers.NewWebSocketHandler(broker, db, aiService, cfg.JWTConfig.SecretKey)
 
 	// 初始化路由
-	router := router.SetupRouter(httpHandler, wsHandler)
+	router := router.SetupRouter(httpHandler, wsHandler, authHandler, cfg.JWTConfig.SecretKey)
 
 	// 显示启动提示信息
 	showStartupInfo(cfg.Port)

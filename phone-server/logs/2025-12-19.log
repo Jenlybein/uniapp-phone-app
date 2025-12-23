@@ -307,3 +307,96 @@
 2025/12/19 22:50:50 logger.go:87: INFO: ws客户端:[::1]:4992已连接，当前连接数: 1
 2025/12/19 22:50:50 logger.go:87: INFO: ws客户端:[::1]:4992已断开连接，当前连接数: 0
 2025/12/19 22:57:50 logger.go:87: INFO: ws客户端:[::1]:9486已连接，当前连接数: 1
+2025/12/19 23:03:55 logger.go:87: INFO: ws客户端:[::1]:3373已连接，当前连接数: 2
+2025/12/19 23:03:58 logger.go:87: INFO: 收到WebSocket客户端消息: {"type":"text","content":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+2025/12/19 23:03:58 logger.go:87: INFO: 处理文本消息: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+2025/12/19 23:03:58 logger.go:87: INFO: 发送文本到AI: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+2025/12/19 23:04:02 logger.go:87: INFO: ws客户端:[::1]:1511已连接，当前连接数: 3
+2025/12/19 23:04:12 logger.go:87: INFO: ws客户端:[::1]:1511已断开连接，当前连接数: 2
+2025/12/19 23:04:13 logger.go:87: INFO: ws客户端:[::1]:5987已连接，当前连接数: 3
+2025/12/19 23:04:13 logger.go:87: INFO: ws客户端:[::1]:5987已断开连接，当前连接数: 2
+2025/12/19 23:04:13 logger.go:87: INFO: ws客户端:[::1]:5998已连接，当前连接数: 3
+2025/12/19 23:04:13 logger.go:87: INFO: ws客户端:[::1]:5998已断开连接，当前连接数: 2
+2025/12/19 23:04:13 logger.go:87: INFO: ws客户端:[::1]:6008已连接，当前连接数: 3
+2025/12/19 23:04:13 logger.go:87: INFO: ws客户端:[::1]:6008已断开连接，当前连接数: 2
+2025/12/19 23:04:13 logger.go:87: INFO: ws客户端:[::1]:6017已连接，当前连接数: 3
+2025/12/19 23:04:14 logger.go:87: INFO: ws客户端:[::1]:6017已断开连接，当前连接数: 2
+2025/12/19 23:04:14 logger.go:87: INFO: ws客户端:[::1]:6027已连接，当前连接数: 3
+2025/12/19 23:04:14 logger.go:87: INFO: ws客户端:[::1]:6027已断开连接，当前连接数: 2
+2025/12/19 23:04:14 logger.go:87: INFO: ws客户端:[::1]:6033已连接，当前连接数: 3
+2025/12/19 23:04:14 logger.go:87: INFO: ws客户端:[::1]:6033已断开连接，当前连接数: 2
+2025/12/19 23:04:14 logger.go:87: INFO: ws客户端:[::1]:6035已连接，当前连接数: 3
+2025/12/19 23:04:14 logger.go:87: INFO: ws客户端:[::1]:6035已断开连接，当前连接数: 2
+2025/12/19 23:04:15 logger.go:87: INFO: ws客户端:[::1]:6037已连接，当前连接数: 3
+2025/12/19 23:04:17 logger.go:92: ERROR: 发送AI文本响应失败: write tcp [::1]:8080->[::1]:3373: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:04:17 logger.go:92: ERROR: 流式响应回调处理失败: write tcp [::1]:8080->[::1]:3373: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:04:17 logger.go:92: ERROR: AI文本对话失败: write tcp [::1]:8080->[::1]:3373: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:04:17 logger.go:92: ERROR: 发送错误消息失败: write tcp [::1]:8080->[::1]:3373: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:04:17 logger.go:87: INFO: ws客户端:[::1]:3373已断开连接，当前连接数: 2
+2025/12/19 23:04:23 logger.go:87: INFO: ws客户端:[::1]:6037已断开连接，当前连接数: 1
+2025/12/19 23:04:23 logger.go:87: INFO: ws客户端:[::1]:6059已连接，当前连接数: 2
+2025/12/19 23:04:33 logger.go:87: INFO: ws客户端:[::1]:6059已断开连接，当前连接数: 1
+2025/12/19 23:04:33 logger.go:87: INFO: ws客户端:[::1]:10395已连接，当前连接数: 2
+2025/12/19 23:04:36 logger.go:87: INFO: ws客户端:[::1]:9486已断开连接，当前连接数: 1
+2025/12/19 23:04:43 logger.go:87: INFO: ws客户端:[::1]:10395已断开连接，当前连接数: 0
+2025/12/19 23:04:43 logger.go:87: INFO: ws客户端:[::1]:8276已连接，当前连接数: 1
+2025/12/19 23:04:46 logger.go:87: INFO: 收到WebSocket客户端消息: {"type":"text","content":"123123"}
+2025/12/19 23:04:46 logger.go:87: INFO: 处理文本消息: 123123
+2025/12/19 23:04:46 logger.go:87: INFO: 发送文本到AI: 123123
+2025/12/19 23:04:53 logger.go:87: INFO: ws客户端:[::1]:9666已连接，当前连接数: 2
+2025/12/19 23:04:56 logger.go:92: ERROR: 发送AI文本响应失败: write tcp [::1]:8080->[::1]:8276: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:04:56 logger.go:92: ERROR: 流式响应回调处理失败: write tcp [::1]:8080->[::1]:8276: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:04:56 logger.go:92: ERROR: AI文本对话失败: write tcp [::1]:8080->[::1]:8276: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:04:56 logger.go:92: ERROR: 发送错误消息失败: write tcp [::1]:8080->[::1]:8276: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:04:56 logger.go:87: INFO: ws客户端:[::1]:8276已断开连接，当前连接数: 1
+2025/12/19 23:05:03 logger.go:87: INFO: ws客户端:[::1]:9666已断开连接，当前连接数: 0
+2025/12/19 23:05:03 logger.go:87: INFO: ws客户端:[::1]:9710已连接，当前连接数: 1
+2025/12/19 23:05:13 logger.go:87: INFO: ws客户端:[::1]:9710已断开连接，当前连接数: 0
+2025/12/19 23:05:13 logger.go:87: INFO: ws客户端:[::1]:9727已连接，当前连接数: 1
+2025/12/19 23:05:23 logger.go:87: INFO: ws客户端:[::1]:9727已断开连接，当前连接数: 0
+2025/12/19 23:05:23 logger.go:87: INFO: ws客户端:[::1]:9750已连接，当前连接数: 1
+2025/12/19 23:05:33 logger.go:87: INFO: ws客户端:[::1]:9750已断开连接，当前连接数: 0
+2025/12/19 23:05:33 logger.go:87: INFO: ws客户端:[::1]:9765已连接，当前连接数: 1
+2025/12/19 23:05:43 logger.go:87: INFO: ws客户端:[::1]:9765已断开连接，当前连接数: 0
+2025/12/19 23:05:43 logger.go:87: INFO: ws客户端:[::1]:9803已连接，当前连接数: 1
+2025/12/19 23:05:48 logger.go:87: INFO: 正在关闭服务器...
+2025/12/19 23:05:48 logger.go:87: INFO: 服务器已关闭
+2025/12/19 23:10:21 logger.go:87: INFO: 从配置文件读取到的AI配置: APIKey=24325ad4-1a64-4205-a311-68c91ede6a28, BaseURL=https://ark.cn-beijing.volces.com/api/v3, Model=doubao-seed-1-6-251015
+2025/12/19 23:10:21 logger.go:87: INFO: 设置AI API Key: 24325ad4-1a64-4205-a311-68c91ede6a28
+2025/12/19 23:10:21 logger.go:87: INFO: 设置AI BaseURL: https://ark.cn-beijing.volces.com/api/v3
+2025/12/19 23:10:21 logger.go:87: INFO: 设置AI Model: doubao-seed-1-6-251015
+2025/12/19 23:10:22 logger.go:87: INFO: ws客户端:[::1]:10518已连接，当前连接数: 1
+2025/12/19 23:10:26 logger.go:87: INFO: ws客户端:[::1]:10525已连接，当前连接数: 2
+2025/12/19 23:10:36 logger.go:87: INFO: ws客户端:[::1]:10525已断开连接，当前连接数: 1
+2025/12/19 23:10:36 logger.go:87: INFO: ws客户端:[::1]:10548已连接，当前连接数: 2
+2025/12/19 23:10:41 logger.go:87: INFO: 收到WebSocket客户端消息: {"type":"text","content":"123132"}
+2025/12/19 23:10:41 logger.go:87: INFO: 处理文本消息: 123132
+2025/12/19 23:10:41 logger.go:87: INFO: 发送文本到AI: 123132
+2025/12/19 23:10:46 logger.go:87: INFO: ws客户端:[::1]:8303已连接，当前连接数: 3
+2025/12/19 23:10:51 logger.go:92: ERROR: 发送AI文本响应失败: write tcp [::1]:8080->[::1]:10548: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:10:51 logger.go:92: ERROR: 流式响应回调处理失败: write tcp [::1]:8080->[::1]:10548: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:10:51 logger.go:92: ERROR: AI文本对话失败: write tcp [::1]:8080->[::1]:10548: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:10:51 logger.go:92: ERROR: 发送错误消息失败: write tcp [::1]:8080->[::1]:10548: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:10:51 logger.go:87: INFO: ws客户端:[::1]:10548已断开连接，当前连接数: 2
+2025/12/19 23:10:53 logger.go:87: INFO: 收到WebSocket客户端消息: {"type":"ping"}
+2025/12/19 23:10:53 logger.go:87: INFO: 收到心跳消息，来自客户端: [::1]:10518
+2025/12/19 23:10:56 logger.go:87: INFO: ws客户端:[::1]:8303已断开连接，当前连接数: 1
+2025/12/19 23:10:56 logger.go:87: INFO: ws客户端:[::1]:8325已连接，当前连接数: 2
+2025/12/19 23:11:06 logger.go:87: INFO: ws客户端:[::1]:8325已断开连接，当前连接数: 1
+2025/12/19 23:11:06 logger.go:87: INFO: ws客户端:[::1]:4371已连接，当前连接数: 2
+2025/12/19 23:11:16 logger.go:87: INFO: ws客户端:[::1]:4371已断开连接，当前连接数: 1
+2025/12/19 23:11:16 logger.go:87: INFO: ws客户端:[::1]:1208已连接，当前连接数: 2
+2025/12/19 23:11:20 logger.go:87: INFO: 收到WebSocket客户端消息: {"type":"text","content":"123"}
+2025/12/19 23:11:20 logger.go:87: INFO: 处理文本消息: 123
+2025/12/19 23:11:20 logger.go:87: INFO: 发送文本到AI: 123
+2025/12/19 23:11:23 logger.go:87: INFO: 收到WebSocket客户端消息: {"type":"ping"}
+2025/12/19 23:11:23 logger.go:87: INFO: 收到心跳消息，来自客户端: [::1]:10518
+2025/12/19 23:11:26 logger.go:92: ERROR: 发送AI文本响应失败: write tcp [::1]:8080->[::1]:1208: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:11:26 logger.go:92: ERROR: 流式响应回调处理失败: write tcp [::1]:8080->[::1]:1208: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:11:26 logger.go:92: ERROR: AI文本对话失败: write tcp [::1]:8080->[::1]:1208: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:11:26 logger.go:92: ERROR: 发送错误消息失败: write tcp [::1]:8080->[::1]:1208: wsasend: An established connection was aborted by the software in your host machine.
+2025/12/19 23:11:26 logger.go:87: INFO: ws客户端:[::1]:1208已断开连接，当前连接数: 1
+2025/12/19 23:11:26 logger.go:87: INFO: ws客户端:[::1]:13915已连接，当前连接数: 2
+2025/12/19 23:11:31 logger.go:87: INFO: ws客户端:[::1]:13915已断开连接，当前连接数: 1
+2025/12/19 23:11:31 logger.go:87: INFO: ws客户端:[::1]:10518已断开连接，当前连接数: 0
+2025/12/19 23:12:58 logger.go:87: INFO: ws客户端:[::1]:11099已连接，当前连接数: 1

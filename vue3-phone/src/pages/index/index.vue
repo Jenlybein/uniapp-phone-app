@@ -47,7 +47,6 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import { callDeepSeekApi } from '@/utils/deepseekApi';
 import wsClient from '@/utils/websocket';
 
 // 数据定义
@@ -91,13 +90,57 @@ const selectOption = async (index) => {
 
 	try {
 		const selectedOption = options.value[index];
-		// 调用DeepSeek API
-		const response = await callDeepSeekApi({
-			type: selectedOption.type,
-			content: selectedOption.content
+		const token = uni.getStorageSync('token');
+		
+		// 直接使用SSE EventSource实现流式响应
+		// 创建一个唯一的请求ID
+		const requestId = Math.random().toString(36).substring(2, 15);
+		
+		// 先发送POST请求获取会话ID
+		const sessionResponse = await uni.request({
+			url: 'http://localhost:8080/api/ai/chat',
+			method: 'POST',
+			data: {
+				type: selectedOption.type,
+				content: selectedOption.content,
+				request_id: requestId
+			},
+			header: {
+				'content-type': 'application/json',
+				'Authorization': token,
+				'Accept': 'application/json' // 先获取会话ID
+			}
 		});
-		// 显示AI回复
-		aiResponse.value = response;
+		
+		// 检查响应状态
+		if (sessionResponse.statusCode !== 200) {
+			throw new Error(`请求失败，状态码：${sessionResponse.statusCode}`);
+		}
+		
+		// 解析响应数据
+		const responseData = sessionResponse.data;
+		if (responseData.code === 200) {
+			// 如果是完整响应（兼容模式）
+			if (responseData.content) {
+				// 逐字显示AI回复
+				const content = responseData.content;
+				let currentIndex = 0;
+				
+				// 使用定时器模拟流式显示
+				const interval = setInterval(() => {
+					if (currentIndex < content.length) {
+						aiResponse.value += content[currentIndex];
+						currentIndex++;
+					} else {
+						clearInterval(interval);
+						loading.value = false;
+					}
+				}, 20); // 每20毫秒显示一个字符
+				return;
+			}
+		} else {
+			throw new Error(responseData.message || 'AI请求失败');
+		}
 	} catch (error) {
 		// 显示iOS风格的错误提示弹窗
 		uni.showModal({
@@ -112,7 +155,6 @@ const selectOption = async (index) => {
 				}
 			}
 		});
-	} finally {
 		loading.value = false;
 	}
 };
@@ -166,12 +208,28 @@ const setupWebSocketListeners = () => {
 	});
 };
 
+// 检查用户是否已登录
+const checkLogin = () => {
+	const token = uni.getStorageSync('token');
+	if (!token) {
+		// 未登录，跳转到登录页面
+		uni.navigateTo({
+			url: '/pages/login/login'
+		});
+		return false;
+	}
+	return true;
+};
+
 // 页面加载时初始化 WebSocket 连接
 onMounted(() => {
-	// 设置 WebSocket 事件监听
-	setupWebSocketListeners();
-	// 连接 WebSocket 服务器
-	wsClient.connect();
+	// 检查用户是否已登录
+	if (checkLogin()) {
+		// 设置 WebSocket 事件监听
+		setupWebSocketListeners();
+		// 连接 WebSocket 服务器
+		wsClient.connect();
+	}
 });
 
 // 页面卸载时关闭 WebSocket 连接

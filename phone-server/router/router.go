@@ -3,11 +3,12 @@ package router
 import (
 	"phone-server/handlers"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 // SetupRouter 初始化并配置Gin路由
-func SetupRouter(httpHandler *handlers.HTTPHandler, wsHandler *handlers.WebSocketHandler) *gin.Engine {
+func SetupRouter(httpHandler *handlers.HTTPHandler, wsHandler *handlers.WebSocketHandler, authHandler *handlers.AuthHandler, jwtSecret string) *gin.Engine {
 	// 创建Gin引擎
 	// 生产环境中使用gin.ReleaseMode
 	// gin.SetMode(gin.ReleaseMode)
@@ -17,23 +18,50 @@ func SetupRouter(httpHandler *handlers.HTTPHandler, wsHandler *handlers.WebSocke
 	// 生产环境中应该设置具体的可信代理IP
 	router.SetTrustedProxies(nil)
 
+	// 配置CORS中间件
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
+	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
+	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
+	config.AllowCredentials = true
+	router.Use(cors.New(config))
+
 	// 设置路由
 	// API路由组
 	apiGroup := router.Group("/api")
 	{
-		// 健康检查
-		apiGroup.GET("/health", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"status":  "ok",
-				"message": "服务运行正常",
+		// 认证路由组
+		authGroup := apiGroup.Group("/auth")
+		{
+			// 添加OPTIONS路由处理
+			authGroup.OPTIONS("/*path", func(c *gin.Context) {
+				c.Header("Access-Control-Allow-Origin", "*")
+				c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
+				c.Header("Access-Control-Allow-Headers", "Origin, Content-Type, Authorization")
+				c.Header("Access-Control-Expose-Headers", "Content-Length")
+				c.Header("Access-Control-Allow-Credentials", "true")
+				c.Header("Access-Control-Max-Age", "43200")
+				c.AbortWithStatus(200)
 			})
-		})
-		// 获取服务状态
-		apiGroup.GET("/status", httpHandler.GetStatus)
-		// 发送文本消息
-		apiGroup.POST("/message", httpHandler.SendTextMessage)
-		// 发送图片消息
-		apiGroup.POST("/image", httpHandler.SendImageMessage)
+			// 用户注册
+			authGroup.POST("/register", authHandler.Register)
+			// 用户登录
+			authGroup.POST("/login", authHandler.Login)
+			// 刷新Token
+			authGroup.POST("/refresh", authHandler.RefreshToken)
+		}
+
+		// 消息路由组（需要认证中间件）
+		messageGroup := apiGroup.Group("/")
+		messageGroup.Use(handlers.AuthMiddleware(jwtSecret))
+		{
+			// 发送文本消息
+			messageGroup.POST("/message", httpHandler.SendTextMessage)
+			// 发送图片消息
+			messageGroup.POST("/image", httpHandler.SendImageMessage)
+			// AI聊天
+			messageGroup.POST("/ai/chat", httpHandler.ChatWithAI)
+		}
 	}
 
 	// WebSocket路由
@@ -51,6 +79,8 @@ func SetupRouter(httpHandler *handlers.HTTPHandler, wsHandler *handlers.WebSocke
 		c.JSON(200, gin.H{
 			"message": "WebSocket服务器已启动",
 			"api": gin.H{
+				"register":  "/api/auth/register (POST)",
+				"login":     "/api/auth/login (POST)",
 				"sendText":  "/api/message (POST)",
 				"sendImage": "/api/image (POST)",
 				"websocket": "/ws (GET) 或 / (GET with Upgrade: websocket)",

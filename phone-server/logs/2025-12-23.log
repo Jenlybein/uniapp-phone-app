@@ -1,0 +1,323 @@
+2025/12/23 15:04:27 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 15:04:27 logger.go:87: INFO: 服务器已关闭
+2025/12/23 16:02:35 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 16:02:35 logger.go:87: INFO: 服务器已关闭
+2025/12/23 16:15:27 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 16:15:27 logger.go:87: INFO: 服务器已关闭
+2025/12/23 16:18:21 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 16:18:21 logger.go:87: INFO: 服务器已关闭
+2025/12/23 16:21:08 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 16:21:08 logger.go:87: INFO: 服务器已关闭
+2025/12/23 16:21:52 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 16:21:52 logger.go:87: INFO: 服务器已关闭
+2025/12/23 16:22:40 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 16:22:40 logger.go:87: INFO: 服务器已关闭
+2025/12/23 16:38:16 logger.go:97: FATAL: 服务器启动失败: listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+2025/12/23 16:43:54 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 16:43:54 logger.go:87: INFO: 服务器已关闭
+2025/12/23 16:46:20 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 16:46:20 logger.go:87: INFO: 服务器已关闭
+2025/12/23 16:48:11 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 16:48:11 logger.go:87: INFO: 服务器已关闭
+2025/12/23 16:48:52 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 16:48:52 logger.go:87: INFO: 服务器已关闭
+2025/12/23 16:52:04 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 16:52:04 logger.go:87: INFO: 服务器已关闭
+2025/12/23 16:53:57 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8701已连接
+2025/12/23 16:59:08 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8701已断开连接
+2025/12/23 17:04:21 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 17:04:21 logger.go:87: INFO: 服务器已关闭
+2025/12/23 17:04:51 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:10535已连接
+2025/12/23 17:05:51 logger.go:87: INFO: 用户 1 发送文本消息: 123
+2025/12/23 17:05:51 logger.go:87: INFO: 已向用户 1 广播消息，类型: text，客户端数: 1
+2025/12/23 17:06:49 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 17:06:49 logger.go:87: INFO: 服务器已关闭
+2025/12/23 17:07:51 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:1275已连接
+2025/12/23 17:07:51 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:1275已断开连接
+2025/12/23 17:07:52 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:1287已连接
+2025/12/23 17:07:54 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:1287已断开连接
+2025/12/23 17:07:55 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:1301已连接
+2025/12/23 17:07:56 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:07:56 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:1301已断开连接
+2025/12/23 17:07:59 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:1318已连接
+2025/12/23 17:08:02 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13707已连接
+2025/12/23 17:09:41 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:10160已连接
+2025/12/23 17:09:45 logger.go:87: INFO: 用户 1 发送文本消息: 12121
+2025/12/23 17:09:45 logger.go:87: INFO: 已向用户 1 广播消息，类型: text，客户端数: 3
+2025/12/23 17:09:51 logger.go:87: INFO: 发送文本到AI: 12121
+2025/12/23 17:10:12 logger.go:92: ERROR: AI流式请求失败: Post "https://api.openai.com/v1/chat/completions": dial tcp 108.160.165.173:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+2025/12/23 17:10:12 logger.go:92: ERROR: AI聊天失败: Post "https://api.openai.com/v1/chat/completions": dial tcp 108.160.165.173:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+2025/12/23 17:10:32 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 17:10:32 logger.go:87: INFO: 服务器已关闭
+2025/12/23 17:19:36 logger.go:87: INFO: 用户 1 的ws客户端:127.0.0.1:5600已连接
+2025/12/23 17:19:38 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:11152已连接
+2025/12/23 17:21:47 logger.go:97: FATAL: 服务器启动失败: listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+2025/12/23 17:21:59 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:1828已连接
+2025/12/23 17:22:01 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:1832已连接
+2025/12/23 17:25:58 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3395已连接
+2025/12/23 17:25:58 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3396已连接
+2025/12/23 17:30:50 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3218已连接
+2025/12/23 17:31:04 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3396已断开连接
+2025/12/23 17:31:04 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3395已断开连接
+2025/12/23 17:31:07 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:10642已连接
+2025/12/23 17:31:13 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:10660已连接
+2025/12/23 17:31:21 logger.go:87: INFO: 用户 1 发送文本消息: 你好，我是你的主任
+2025/12/23 17:31:21 logger.go:87: INFO: 已向用户 1 广播消息，类型: text，客户端数: 3
+2025/12/23 17:31:23 logger.go:87: INFO: 发送文本到AI: 你好，我是你的主任
+2025/12/23 17:31:29 logger.go:87: INFO: AI流式响应结束
+2025/12/23 17:31:53 logger.go:87: INFO: 用户 1 发送文本消息: 请你解释一下什么是事件传播
+2025/12/23 17:31:53 logger.go:87: INFO: 已向用户 1 广播消息，类型: text，客户端数: 3
+2025/12/23 17:31:55 logger.go:87: INFO: 发送文本到AI: 请你解释一下什么是事件传播
+2025/12/23 17:32:44 logger.go:87: INFO: AI流式响应结束
+2025/12/23 17:34:15 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:34:15 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3218已断开连接
+2025/12/23 17:34:15 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:9759已连接
+2025/12/23 17:34:18 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:34:18 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:9759已断开连接
+2025/12/23 17:34:18 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3576已连接
+2025/12/23 17:34:21 logger.go:87: INFO: 正在关闭服务器...
+2025/12/23 17:34:21 logger.go:87: INFO: 服务器已关闭
+2025/12/23 17:35:39 logger.go:87: INFO: 用户 1 的ws客户端:127.0.0.1:8972已连接
+2025/12/23 17:35:39 logger.go:87: INFO: 用户 1 的ws客户端:127.0.0.1:8978已连接
+2025/12/23 17:35:51 logger.go:87: INFO: 用户 1 的ws客户端:127.0.0.1:8978已断开连接
+2025/12/23 17:36:07 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:9064已连接
+2025/12/23 17:36:30 logger.go:87: INFO: 用户 1 发送文本消息: 请你解释一下什么是事件传播
+2025/12/23 17:36:30 logger.go:87: INFO: 已向用户 1 广播消息，类型: text，客户端数: 2
+2025/12/23 17:36:31 logger.go:87: INFO: 发送文本到AI: 请你解释一下什么是事件传播
+2025/12/23 17:37:10 logger.go:87: INFO: AI流式响应结束
+2025/12/23 17:39:03 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:03 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:9064已断开连接
+2025/12/23 17:39:03 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:1497已连接
+2025/12/23 17:39:06 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:06 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:1497已断开连接
+2025/12/23 17:39:06 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8460已连接
+2025/12/23 17:39:09 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:09 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8460已断开连接
+2025/12/23 17:39:09 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8464已连接
+2025/12/23 17:39:12 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:12 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8464已断开连接
+2025/12/23 17:39:12 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8552已连接
+2025/12/23 17:39:15 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:15 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8552已断开连接
+2025/12/23 17:39:15 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3256已连接
+2025/12/23 17:39:18 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:18 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3256已断开连接
+2025/12/23 17:39:18 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3259已连接
+2025/12/23 17:39:21 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:21 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3259已断开连接
+2025/12/23 17:39:21 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3264已连接
+2025/12/23 17:39:24 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:24 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3264已断开连接
+2025/12/23 17:39:24 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3271已连接
+2025/12/23 17:39:27 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:27 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3271已断开连接
+2025/12/23 17:39:27 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3975已连接
+2025/12/23 17:39:30 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:30 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3975已断开连接
+2025/12/23 17:39:30 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3977已连接
+2025/12/23 17:39:33 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:33 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3977已断开连接
+2025/12/23 17:39:33 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3982已连接
+2025/12/23 17:39:36 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:36 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:3982已断开连接
+2025/12/23 17:39:36 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:10750已连接
+2025/12/23 17:39:39 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:39 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:10750已断开连接
+2025/12/23 17:39:39 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:10753已连接
+2025/12/23 17:39:42 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:42 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:10753已断开连接
+2025/12/23 17:39:42 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13395已连接
+2025/12/23 17:39:45 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:45 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13395已断开连接
+2025/12/23 17:39:45 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13400已连接
+2025/12/23 17:39:48 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:48 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13400已断开连接
+2025/12/23 17:39:48 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13402已连接
+2025/12/23 17:39:51 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:51 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13402已断开连接
+2025/12/23 17:39:51 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13408已连接
+2025/12/23 17:39:54 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:54 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13408已断开连接
+2025/12/23 17:39:54 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13412已连接
+2025/12/23 17:39:57 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:39:57 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13412已断开连接
+2025/12/23 17:39:57 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13414已连接
+2025/12/23 17:40:00 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:00 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13414已断开连接
+2025/12/23 17:40:00 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13422已连接
+2025/12/23 17:40:03 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:03 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13422已断开连接
+2025/12/23 17:40:03 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:7517已连接
+2025/12/23 17:40:06 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:06 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:7517已断开连接
+2025/12/23 17:40:06 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8184已连接
+2025/12/23 17:40:09 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:09 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8184已断开连接
+2025/12/23 17:40:09 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8432已连接
+2025/12/23 17:40:12 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:12 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8432已断开连接
+2025/12/23 17:40:12 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8444已连接
+2025/12/23 17:40:15 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:15 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:8444已断开连接
+2025/12/23 17:40:15 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13796已连接
+2025/12/23 17:40:18 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:18 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13796已断开连接
+2025/12/23 17:40:18 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13803已连接
+2025/12/23 17:40:22 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:22 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13803已断开连接
+2025/12/23 17:40:22 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13816已连接
+2025/12/23 17:40:26 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:26 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13816已断开连接
+2025/12/23 17:40:26 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13823已连接
+2025/12/23 17:40:28 logger.go:87: INFO: 用户 1 发送文本消息: 什么是事件传播？
+2025/12/23 17:40:28 logger.go:87: INFO: 已向用户 1 广播消息，类型: text，客户端数: 2
+2025/12/23 17:40:29 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:29 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13823已断开连接
+2025/12/23 17:40:29 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13830已连接
+2025/12/23 17:40:29 logger.go:87: INFO: 发送文本到AI: 什么是事件传播？
+2025/12/23 17:40:32 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:32 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13830已断开连接
+2025/12/23 17:40:32 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13835已连接
+2025/12/23 17:40:35 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:35 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13835已断开连接
+2025/12/23 17:40:35 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13842已连接
+2025/12/23 17:40:38 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:38 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13842已断开连接
+2025/12/23 17:40:38 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13846已连接
+2025/12/23 17:40:41 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:41 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13846已断开连接
+2025/12/23 17:40:41 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13849已连接
+2025/12/23 17:40:44 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:44 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13849已断开连接
+2025/12/23 17:40:44 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13856已连接
+2025/12/23 17:40:47 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:47 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13856已断开连接
+2025/12/23 17:40:47 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13858已连接
+2025/12/23 17:40:50 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:50 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13858已断开连接
+2025/12/23 17:40:50 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13869已连接
+2025/12/23 17:40:53 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:53 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13869已断开连接
+2025/12/23 17:40:53 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13871已连接
+2025/12/23 17:40:56 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:56 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13871已断开连接
+2025/12/23 17:40:56 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13874已连接
+2025/12/23 17:40:59 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:40:59 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13874已断开连接
+2025/12/23 17:40:59 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13881已连接
+2025/12/23 17:41:02 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:02 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13881已断开连接
+2025/12/23 17:41:02 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13887已连接
+2025/12/23 17:41:06 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:06 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13887已断开连接
+2025/12/23 17:41:06 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13898已连接
+2025/12/23 17:41:06 logger.go:87: INFO: 用户 1 发送文本消息: 你好
+2025/12/23 17:41:06 logger.go:87: INFO: 已向用户 1 广播消息，类型: text，客户端数: 2
+2025/12/23 17:41:09 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:09 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13898已断开连接
+2025/12/23 17:41:09 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13908已连接
+2025/12/23 17:41:12 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:12 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13908已断开连接
+2025/12/23 17:41:12 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13913已连接
+2025/12/23 17:41:15 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:15 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13913已断开连接
+2025/12/23 17:41:15 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13923已连接
+2025/12/23 17:41:18 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:18 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13923已断开连接
+2025/12/23 17:41:18 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13933已连接
+2025/12/23 17:41:21 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:21 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13933已断开连接
+2025/12/23 17:41:21 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13939已连接
+2025/12/23 17:41:24 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:24 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13939已断开连接
+2025/12/23 17:41:24 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13945已连接
+2025/12/23 17:41:27 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:27 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13945已断开连接
+2025/12/23 17:41:27 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13949已连接
+2025/12/23 17:41:29 logger.go:92: ERROR: AI流式响应接收失败: context canceled
+2025/12/23 17:41:29 logger.go:92: ERROR: AI聊天失败: context canceled
+2025/12/23 17:41:30 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:30 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13949已断开连接
+2025/12/23 17:41:30 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13957已连接
+2025/12/23 17:41:33 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:33 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13957已断开连接
+2025/12/23 17:41:33 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13962已连接
+2025/12/23 17:41:36 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:36 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13962已断开连接
+2025/12/23 17:41:36 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13972已连接
+2025/12/23 17:41:37 logger.go:87: INFO: 发送文本到AI: 你好
+2025/12/23 17:41:39 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:39 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13972已断开连接
+2025/12/23 17:41:39 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13982已连接
+2025/12/23 17:41:41 logger.go:87: INFO: AI流式响应结束
+2025/12/23 17:41:42 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:42 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13982已断开连接
+2025/12/23 17:41:42 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13991已连接
+2025/12/23 17:41:45 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:45 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13991已断开连接
+2025/12/23 17:41:45 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13996已连接
+2025/12/23 17:41:48 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:48 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:13996已断开连接
+2025/12/23 17:41:48 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14003已连接
+2025/12/23 17:41:51 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:51 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14003已断开连接
+2025/12/23 17:41:51 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14009已连接
+2025/12/23 17:41:54 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:54 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14009已断开连接
+2025/12/23 17:41:54 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14012已连接
+2025/12/23 17:41:57 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:41:57 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14012已断开连接
+2025/12/23 17:41:57 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14015已连接
+2025/12/23 17:42:00 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:00 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14015已断开连接
+2025/12/23 17:42:00 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14024已连接
+2025/12/23 17:42:03 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:03 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14024已断开连接
+2025/12/23 17:42:03 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14026已连接
+2025/12/23 17:42:06 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:06 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14026已断开连接
+2025/12/23 17:42:06 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14035已连接
+2025/12/23 17:42:09 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:09 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14035已断开连接
+2025/12/23 17:42:09 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14042已连接
+2025/12/23 17:42:12 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:12 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14042已断开连接
+2025/12/23 17:42:12 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14046已连接
+2025/12/23 17:42:15 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:15 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14046已断开连接
+2025/12/23 17:42:15 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14053已连接
+2025/12/23 17:42:18 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:18 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14053已断开连接
+2025/12/23 17:42:18 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14055已连接
+2025/12/23 17:42:21 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:21 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14055已断开连接
+2025/12/23 17:42:21 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14060已连接
+2025/12/23 17:42:24 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:24 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14060已断开连接
+2025/12/23 17:42:24 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14065已连接
+2025/12/23 17:42:27 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:27 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14065已断开连接
+2025/12/23 17:42:27 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14069已连接
+2025/12/23 17:42:30 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:30 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14069已断开连接
+2025/12/23 17:42:30 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14075已连接
+2025/12/23 17:42:33 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:33 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14075已断开连接
+2025/12/23 17:42:33 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14084已连接
+2025/12/23 17:42:36 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:36 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14084已断开连接
+2025/12/23 17:42:36 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14091已连接
+2025/12/23 17:42:38 logger.go:87: INFO: 发送文本到AI: 你好
+2025/12/23 17:42:39 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:39 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14091已断开连接
+2025/12/23 17:42:39 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14100已连接
+2025/12/23 17:42:42 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:42 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14100已断开连接
+2025/12/23 17:42:42 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14107已连接
+2025/12/23 17:42:45 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:45 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14107已断开连接
+2025/12/23 17:42:45 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14131已连接
+2025/12/23 17:42:47 logger.go:87: INFO: AI流式响应结束
+2025/12/23 17:42:48 logger.go:92: ERROR: WebSocket读取消息错误: websocket: close 1005 (no status)
+2025/12/23 17:42:48 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14131已断开连接
+2025/12/23 17:42:48 logger.go:87: INFO: 用户 1 的ws客户端:[::1]:14142已连接

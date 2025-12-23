@@ -7,6 +7,8 @@
 const WS_CONFIG = {
   // WebSocket 服务器地址（实际项目中需要替换为真实地址）
   SERVER_URL: "ws://localhost:8080",
+  // WebSocket 路由路径
+  WS_PATH: "/ws",
   // 重连间隔时间（毫秒）
   RECONNECT_INTERVAL: 3000,
   // 最大重连次数
@@ -36,8 +38,19 @@ class WebSocketClient {
         this.socket.close();
       }
 
+      // 从本地存储中获取 token
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        console.error("未找到登录 token，无法连接 WebSocket");
+        this.notifyListeners("error", new Error("未找到登录 token，无法连接 WebSocket"));
+        return;
+      }
+
+      // 构建 WebSocket 连接 URL，包含 token 作为查询参数
+      const wsUrl = `${WS_CONFIG.SERVER_URL}${WS_CONFIG.WS_PATH}?token=${token}`;
+      
       // 创建新的 WebSocket 连接
-      this.socket = new WebSocket(WS_CONFIG.SERVER_URL);
+      this.socket = new WebSocket(wsUrl);
 
       // 连接打开事件
       this.socket.onopen = () => {
