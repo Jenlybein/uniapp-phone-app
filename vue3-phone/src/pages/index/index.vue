@@ -1,45 +1,51 @@
 <template>
 	<view class="container">
+		<view class="header">
+			<text class="title">{{ title }}</text>
+		</view>
+		
 		<!-- 上半区：选项列表区 -->
 		<view class="options-section">
 			<view class="section-title">选项列表</view>
-
+			
 			<!-- 空状态提示 -->
 			<view v-if="options.length === 0" class="empty-state">
-				<image class="empty-icon"
-					src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='21' y1='10' x2='3' y2='10'%3E%3C/line%3E%3Cline x1='21' y1='6' x2='3' y2='6'%3E%3C/line%3E%3Cline x1='21' y1='14' x2='3' y2='14'%3E%3C/line%3E%3Cline x1='21' y1='18' x2='3' y2='18'%3E%3C/line%3E%3C/svg%3E">
-				</image>
+				<image class="empty-icon" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='21' y1='10' x2='3' y2='10'%3E%3C/line%3E%3Cline x1='21' y1='6' x2='3' y2='6'%3E%3C/line%3E%3Cline x1='21' y1='14' x2='3' y2='14'%3E%3C/line%3E%3Cline x1='21' y1='18' x2='3' y2='18'%3E%3C/line%3E%3C/svg%3E"></image>
 				<text class="empty-text">暂无选项</text>
 				<text class="empty-subtext">等待电脑端传输内容</text>
 			</view>
-
+			
 			<!-- 选项列表 -->
 			<view v-else class="options-list">
-				<view v-for="(option, index) in options" :key="index" class="option-item"
-					:class="{ 'selected': selectedIndex === index }" @click="selectOption(index)">
+				<view v-for="(option, index) in options" :key="index" 
+					class="option-item" :class="{ 'selected': selectedIndex === index }"
+					@click="selectOption(index)">
 					<view class="option-content">
 						<text v-if="option.type === 'text'" class="option-text">{{ option.content }}</text>
 						<image v-else class="option-image" :src="option.content"></image>
 					</view>
 					<view class="delete-btn" @click.stop="deleteOption(index)">
-						<image class="delete-icon"
-							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'%3E%3C/line%3E%3Cline x1='6' y1='6' x2='18' y2='18'%3E%3C/line%3E%3C/svg%3E">
-						</image>
+						<image class="delete-icon" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'%3E%3C/line%3E%3Cline x1='6' y1='6' x2='18' y2='18'%3E%3C/line%3E%3C/svg%3E"></image>
 					</view>
 				</view>
 			</view>
 		</view>
-
+		
 		<!-- 下半区：AI回复展示区 -->
 		<view class="ai-section">
 			<view class="section-title">AI回复</view>
 			<view class="ai-content">
-				<view v-if="loading" class="loading-container">
+				<!-- 流式输出区域 - 始终可见 -->
+				<text class="ai-response">{{ aiResponse }}</text>
+				
+				<!-- 加载状态 - 仅在loading且无内容时显示 -->
+				<view v-if="loading && aiResponse === ''" class="loading-container">
 					<view class="loading-spinner"></view>
 					<text class="loading-text">正在思考...</text>
 				</view>
-				<text v-else-if="aiResponse" class="ai-response">{{ aiResponse }}</text>
-				<text v-else class="empty-ai">请选择一个选项获取AI回复</text>
+				
+				<!-- 空状态 - 仅在非loading且无内容时显示 -->
+				<text v-else-if="aiResponse === ''" class="empty-ai">请选择一个选项获取AI回复</text>
 			</view>
 		</view>
 	</view>
@@ -92,69 +98,100 @@ const selectOption = async (index) => {
 		const selectedOption = options.value[index];
 		const token = uni.getStorageSync('token');
 		
-		// 直接使用SSE EventSource实现流式响应
-		// 创建一个唯一的请求ID
-		const requestId = Math.random().toString(36).substring(2, 15);
-		
-		// 先发送POST请求获取会话ID
-		const sessionResponse = await uni.request({
-			url: 'http://localhost:8080/api/ai/chat',
-			method: 'POST',
-			data: {
-				type: selectedOption.type,
-				content: selectedOption.content,
-				request_id: requestId
-			},
-			header: {
-				'content-type': 'application/json',
-				'Authorization': token,
-				'Accept': 'application/json' // 先获取会话ID
+		// 检查是否支持fetch API（H5环境）
+		if (typeof fetch !== 'undefined') {
+			console.log('使用fetch API接收SSE流式响应');
+			
+			// 使用fetch API发送请求，设置Accept头为text/event-stream
+			const response = await fetch('http://localhost:8080/api/ai/chat', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': token,
+					'Accept': 'text/event-stream' // 声明支持SSE流式响应
+				},
+				body: JSON.stringify({
+					type: selectedOption.type,
+					content: selectedOption.content
+				})
+			});
+			
+			// 检查响应状态
+			if (!response.ok) {
+				throw new Error(`请求失败，状态码：${response.status}`);
 			}
-		});
-		
-		// 检查响应状态
-		if (sessionResponse.statusCode !== 200) {
-			throw new Error(`请求失败，状态码：${sessionResponse.statusCode}`);
-		}
-		
-		// 解析响应数据
-		const responseData = sessionResponse.data;
-		if (responseData.code === 200) {
-			// 如果是完整响应（兼容模式）
-			if (responseData.content) {
-				// 逐字显示AI回复
-				const content = responseData.content;
-				let currentIndex = 0;
+			
+			// 检查响应是否支持流式处理
+			if (!response.body) {
+				throw new Error('响应不支持流式处理');
+			}
+			
+			// 获取响应流
+			const reader = response.body.getReader();
+			const decoder = new TextDecoder();
+			let buffer = '';
+			
+			console.log('开始接收SSE流式响应');
+			
+			// 隐藏loading状态，显示AI回复区域
+			loading.value = false;
+			
+			// 处理流式响应
+			while (true) {
+				const { done, value } = await reader.read();
+				if (done) {
+					console.log('SSE流式响应结束');
+					break;
+				}
 				
-				// 使用定时器模拟流式显示
-				const interval = setInterval(() => {
-					if (currentIndex < content.length) {
-						aiResponse.value += content[currentIndex];
-						currentIndex++;
-					} else {
-						clearInterval(interval);
-						loading.value = false;
+				// 解码并处理数据
+				buffer += decoder.decode(value, { stream: true });
+				
+				// 解析SSE格式：data: 内容
+				const lines = buffer.split('\n');
+				buffer = lines.pop(); // 保存不完整的行
+				
+				for (const line of lines) {
+					if (line.startsWith('data: ')) {
+						// 提取AI回复内容
+						const chunk = line.slice(6); // 去掉 'data: ' 前缀
+						if (chunk) {
+							console.log('收到AI回复片段:', chunk);
+							aiResponse.value += chunk;
+						}
 					}
-				}, 20); // 每20毫秒显示一个字符
-				return;
+				}
 			}
 		} else {
-			throw new Error(responseData.message || 'AI请求失败');
+			// 不支持fetch API的环境，使用兼容模式（普通HTTP请求）
+			console.log('不支持fetch API，使用兼容模式');
+			
+			const response = await uni.request({
+				url: 'http://localhost:8080/api/ai/chat',
+				method: 'POST',
+				data: {
+					type: selectedOption.type,
+					content: selectedOption.content
+				},
+				header: {
+					'content-type': 'application/json',
+					'Authorization': token
+				}
+			});
+			
+			if (response.statusCode === 200 && response.data.code === 200) {
+				aiResponse.value = response.data.content;
+			} else {
+				throw new Error(response.data?.message || 'AI请求失败');
+			}
+			loading.value = false;
 		}
 	} catch (error) {
 		// 显示iOS风格的错误提示弹窗
-		uni.showModal({
-			title: '请求失败',
-			content: error.message || '发生未知错误',
-			confirmText: '重试',
-			cancelText: '取消',
-			success: (res) => {
-				if (res.confirm) {
-					// 重试请求
-					selectOption(index);
-				}
-			}
-		});
+		console.error('AI请求出错:', error);
+		
+		// 显示错误信息
+		aiResponse.value = `AI请求失败: ${error.message}`;
 		loading.value = false;
 	}
 };
