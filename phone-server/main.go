@@ -32,7 +32,7 @@ func main() {
 	go broker.Start()
 
 	// 创建AI服务实例
-	aiService := services.NewAIService(cfg.AIConfig.ApiKey, cfg.AIConfig.BaseURL, cfg.AIConfig.Model)
+	aiService := services.NewAIService(cfg.AIConfig.ApiKey, cfg.AIConfig.BaseURL, cfg.AIConfig.Model, cfg.AIConfig.Thinking)
 
 	// 创建认证处理器
 	authHandler := handlers.NewAuthHandler(db, cfg.JWTConfig.SecretKey, cfg.JWTConfig.ExpireHour)

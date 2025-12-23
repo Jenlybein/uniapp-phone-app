@@ -7,3 +7,4 @@ port: 8080
 ai_api_key: "24325ad4-1a64-4205-a311-68c91ede6a28"
 ai_base_url: "https://ark.cn-beijing.volces.com/api/v3"
 ai_model: "doubao-seed-1-6-251015"
+thinking: "disabled"

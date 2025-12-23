@@ -10,9 +10,10 @@ import (
 
 // AIConfig AI服务配置结构体
 type AIConfig struct {
-	ApiKey  string `yaml:"ai_api_key"`  // AI服务API密钥
-	BaseURL string `yaml:"ai_base_url"` // AI服务基础URL
-	Model   string `yaml:"ai_model"`    // AI模型名称
+	ApiKey   string `yaml:"ai_api_key"`  // AI服务API密钥
+	BaseURL  string `yaml:"ai_base_url"` // AI服务基础URL
+	Model    string `yaml:"ai_model"`    // AI模型名称
+	Thinking string `yaml:"thinking"`    // AI思考模式
 }
 
 // DatabaseConfig 数据库配置结构体
@@ -163,6 +164,7 @@ type FlatConfig struct {
 	AiApiKey  string `yaml:"ai_api_key"`
 	AiBaseUrl string `yaml:"ai_base_url"`
 	AiModel   string `yaml:"ai_model"`
+	Thinking  string `yaml:"thinking"`
 }
 
 // loadFromYaml 从yaml配置文件加载配置
@@ -196,6 +198,9 @@ func (c *Config) loadFromYaml() {
 		if model, ok := rawConfig["ai_model"].(string); ok {
 			c.AIConfig.Model = model
 		}
+		if thinking, ok := rawConfig["thinking"].(string); ok {
+			c.AIConfig.Thinking = thinking
+		}
 		return
 	}
 
@@ -211,5 +216,8 @@ func (c *Config) loadFromYaml() {
 	}
 	if flatConfig.AiModel != "" {
 		c.AIConfig.Model = flatConfig.AiModel
+	}
+	if flatConfig.Thinking != "" {
+		c.AIConfig.Thinking = flatConfig.Thinking
 	}
 }
