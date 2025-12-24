@@ -40,7 +40,7 @@ export const useAuthStore = defineStore("auth", {
 
         // 检查响应是否成功
         if (response.status === 200 && response.data.code === 200) {
-          const { token, user } = response.data;
+          const { token, user } = response.data.data;
 
           this.token = token;
           this.user = user;
@@ -80,7 +80,7 @@ export const useAuthStore = defineStore("auth", {
 
         // 检查响应是否成功
         if (response.status === 200 && response.data.code === 200) {
-          const { token } = response.data;
+          const { token } = response.data.data;
 
           this.token = token;
           this.isAuthenticated = true;
@@ -126,10 +126,10 @@ export const useAuthStore = defineStore("auth", {
           }
         );
 
-        const { token } = response.data;
+        const { token } = response.data.data;
 
-        this.token = token;
-        localStorage.setItem("token", token);
+          this.token = token;
+          localStorage.setItem("token", token);
       } catch (error) {
         this.logout();
       }

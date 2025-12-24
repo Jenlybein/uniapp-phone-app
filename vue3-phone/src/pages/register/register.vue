@@ -126,7 +126,7 @@ const handleRegister = async () => {
     
     if (response.statusCode === 200 && response.data.code === 200) {
       // 注册成功，保存token
-      uni.setStorageSync('token', response.data.token)
+      uni.setStorageSync('token', response.data.data.token)
       
       // 跳转到首页
       uni.redirectTo({

@@ -85,8 +85,8 @@ const handleLogin = async () => {
     
     if (response.statusCode === 200 && response.data.code === 200) {
       // 登录成功，保存token和用户信息
-      uni.setStorageSync('token', response.data.token)
-      uni.setStorageSync('user', JSON.stringify(response.data.user))
+      uni.setStorageSync('token', response.data.data.token)
+      uni.setStorageSync('user', JSON.stringify(response.data.data.user))
       
       // 跳转到首页
       uni.redirectTo({
