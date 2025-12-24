@@ -22,6 +22,17 @@ type HTTPHandler struct {
 	aiService *services.AIService // AI服务
 }
 
+// SendTextMessageRequest 发送文本消息请求参数
+type SendTextMessageRequest struct {
+	Content string `json:"content" binding:"required"`
+}
+
+// ChatWithAIRequest 与AI聊天请求参数
+type ChatWithAIRequest struct {
+	Type    string `json:"type" binding:"required,oneof=text image"`
+	Content string `json:"content" binding:"required"`
+}
+
 // NewHTTPHandler 创建HTTP接口处理器实例
 func NewHTTPHandler(broker *services.Broker, db *gorm.DB, aiService *services.AIService) *HTTPHandler {
 	return &HTTPHandler{
@@ -37,15 +48,14 @@ func NewHTTPHandler(broker *services.Broker, db *gorm.DB, aiService *services.AI
 // @Tags message
 // @Accept json
 // @Produce json
-// @Param message body struct{Content string} true "文本内容"
-// @Success 200 {object} struct{Code int; Message string}
-// @Failure 400 {object} struct{Code int; Message string}
-// @Failure 401 {object} struct{Code int; Message string}
+// @Security ApiKeyAuth
+// @Param message body SendTextMessageRequest true "文本内容"
+// @Success 200 {object} map[string]interface{} "成功响应"
+// @Failure 400 {object} map[string]interface{} "请求参数错误"
+// @Failure 401 {object} map[string]interface{} "未授权"
 // @Router /api/message [post]
 func (h *HTTPHandler) SendTextMessage(c *gin.Context) {
-	var req struct {
-		Content string `json:"content" binding:"required"`
-	}
+	var req SendTextMessageRequest
 
 	// 绑定请求参数
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -98,10 +108,11 @@ func (h *HTTPHandler) SendTextMessage(c *gin.Context) {
 // @Tags message
 // @Accept multipart/form-data
 // @Produce json
+// @Security ApiKeyAuth
 // @Param image formData file true "图片文件"
-// @Success 200 {object} struct{Code int; Message string}
-// @Failure 400 {object} struct{Code int; Message string}
-// @Failure 401 {object} struct{Code int; Message string}
+// @Success 200 {object} map[string]interface{} "成功响应"
+// @Failure 400 {object} map[string]interface{} "请求参数错误"
+// @Failure 401 {object} map[string]interface{} "未授权"
 // @Router /api/image [post]
 func (h *HTTPHandler) SendImageMessage(c *gin.Context) {
 	// 获取上传的文件
@@ -174,12 +185,13 @@ func (h *HTTPHandler) SendImageMessage(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Produce text/event-stream
-// @Param request body struct{Type string; Content string} true "聊天请求"
-// @Success 200 {object} struct{Code int; Content string} "AI回复"
+// @Security ApiKeyAuth
+// @Param request body ChatWithAIRequest true "聊天请求" SchemaExample({"type": "text", "content": "你好"})
+// @Success 200 {object} map[string]interface{} "AI回复"
 // @Success 200 {string} text/event-stream "AI回复流"
-// @Failure 400 {object} struct{Code int; Message string} "请求参数错误"
-// @Failure 401 {object} struct{Code int; Message string} "未授权"
-// @Failure 500 {object} struct{Code int; Message string} "服务器内部错误"
+// @Failure 400 {object} map[string]interface{} "请求参数错误"
+// @Failure 401 {object} map[string]interface{} "未授权"
+// @Failure 500 {object} map[string]interface{} "服务器内部错误"
 // @Router /api/ai/chat [post]
 func (h *HTTPHandler) ChatWithAI(c *gin.Context) {
 	// 从上下文获取用户ID
@@ -193,10 +205,7 @@ func (h *HTTPHandler) ChatWithAI(c *gin.Context) {
 	}
 
 	// 绑定请求参数
-	var req struct {
-		Type    string `json:"type" binding:"required,oneof=text image"`
-		Content string `json:"content" binding:"required"`
-	}
+	var req ChatWithAIRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		utils.Errorf("绑定AI聊天请求失败: %v", err)
@@ -236,10 +245,11 @@ func (h *HTTPHandler) ChatWithAI(c *gin.Context) {
 
 		// 调用AI服务
 		var err error
-		if req.Type == "text" {
+		switch req.Type {
+		case "text":
 			// 文本聊天
 			err = h.aiService.ChatWithText(ctx, req.Content, streamCallback)
-		} else if req.Type == "image" {
+		case "image":
 			// 图片聊天
 			// 提取base64内容（去掉前缀）
 			base64Content := req.Content
@@ -259,7 +269,7 @@ func (h *HTTPHandler) ChatWithAI(c *gin.Context) {
 	} else {
 		// 普通HTTP响应模式
 		var fullResponse strings.Builder
-		
+
 		// 定义收集完整响应的回调函数
 		collectCallback := func(chunk string) error {
 			fullResponse.WriteString(chunk)
@@ -268,10 +278,11 @@ func (h *HTTPHandler) ChatWithAI(c *gin.Context) {
 
 		// 调用AI服务
 		var err error
-		if req.Type == "text" {
+		switch req.Type {
+		case "text":
 			// 文本聊天
 			err = h.aiService.ChatWithText(ctx, req.Content, collectCallback)
-		} else if req.Type == "image" {
+		case "image":
 			// 图片聊天
 			// 提取base64内容（去掉前缀）
 			base64Content := req.Content
@@ -290,7 +301,7 @@ func (h *HTTPHandler) ChatWithAI(c *gin.Context) {
 			})
 			return
 		}
-		
+
 		// 返回完整的JSON响应
 		c.JSON(http.StatusOK, gin.H{
 			"code":    http.StatusOK,

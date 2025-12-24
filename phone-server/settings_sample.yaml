@@ -11,9 +11,9 @@ db_password: "root" # 数据库密码
 db_name: "phone_db" # 数据库名称
 
 # AI服务配置
-ai_api_key: "1001afea-b546-4f5d-9e65-0144a3f30046"
-ai_base_url: "https://ark.cn-beijing.volces.com/api/v3"
-ai_model: "doubao-seed-1-6-251015"
+ai_api_key: "********"
+ai_base_url: "********"
+ai_model: "********"
 thinking: "disabled"
 
 # 日志配置

@@ -51,9 +51,9 @@ type RefreshTokenRequest struct {
 // @Accept json
 // @Produce json
 // @Param request body RegisterRequest true "注册信息"
-// @Success 200 {object} gin.H{"code": 200, "message": "注册成功", "token": ""}
-// @Failure 400 {object} gin.H{"code": 400, "message": "请求参数错误"}
-// @Failure 500 {object} gin.H{"code": 500, "message": "服务器内部错误"}
+// @Success 200 {object} map[string]interface{} "注册成功"
+// @Failure 400 {object} map[string]interface{} "请求参数错误"
+// @Failure 500 {object} map[string]interface{} "服务器内部错误"
 // @Router /api/auth/register [post]
 func (h *AuthHandler) Register(c *gin.Context) {
 	var req RegisterRequest
@@ -111,10 +111,10 @@ func (h *AuthHandler) Register(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param request body LoginRequest true "登录信息"
-// @Success 200 {object} gin.H{"code": 200, "message": "登录成功", "token": "", "user": {}}
-// @Failure 400 {object} gin.H{"code": 400, "message": "请求参数错误"}
-// @Failure 401 {object} gin.H{"code": 401, "message": "用户名或密码错误"}
-// @Failure 500 {object} gin.H{"code": 500, "message": "服务器内部错误"}
+// @Success 200 {object} map[string]interface{} "登录成功"
+// @Failure 400 {object} map[string]interface{} "请求参数错误"
+// @Failure 401 {object} map[string]interface{} "用户名或密码错误"
+// @Failure 500 {object} map[string]interface{} "服务器内部错误"
 // @Router /api/auth/login [post]
 func (h *AuthHandler) Login(c *gin.Context) {
 	var req LoginRequest
@@ -162,10 +162,10 @@ func (h *AuthHandler) Login(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param request body RefreshTokenRequest true "刷新Token请求"
-// @Success 200 {object} gin.H{"code": 200, "message": "刷新成功", "token": ""}
-// @Failure 400 {object} gin.H{"code": 400, "message": "请求参数错误"}
-// @Failure 401 {object} gin.H{"code": 401, "message": "无效的Token"}
-// @Failure 500 {object} gin.H{"code": 500, "message": "服务器内部错误"}
+// @Success 200 {object} map[string]interface{} "刷新成功"
+// @Failure 400 {object} map[string]interface{} "请求参数错误"
+// @Failure 401 {object} map[string]interface{} "无效的Token"
+// @Failure 500 {object} map[string]interface{} "服务器内部错误"
 // @Router /api/auth/refresh [post]
 func (h *AuthHandler) RefreshToken(c *gin.Context) {
 	var req RefreshTokenRequest

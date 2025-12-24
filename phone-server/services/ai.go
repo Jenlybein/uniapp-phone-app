@@ -9,6 +9,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"time"
 
 	"phone-server/utils"
 )
@@ -37,17 +38,17 @@ func NewAIService(apiKey string, baseURL string, model string, thinking string) 
 // StreamResponseFunc 流式响应回调函数类型
 type StreamResponseFunc func(chunk string) error
 
-// SSEMessage 表示SSE消息结构
+// SSEMessage 表示SSE消息结构（仅保留实际使用的Data字段）
 type SSEMessage struct {
-	ID    string `json:"id,omitempty"`
-	Event string `json:"event,omitempty"`
-	Data  string `json:"data,omitempty"`
-	Retry int    `json:"retry,omitempty"`
+	Data string `json:"data,omitempty"`
 }
 
 // ChatWithText 与AI进行文本对话（流式）
 func (s *AIService) ChatWithText(ctx context.Context, content string, streamCallback StreamResponseFunc) error {
-	utils.Infof("发送文本到AI: %s", content)
+	// 记录请求开始时间
+	startTime := time.Now()
+
+	utils.Infofc(ctx, "[AI_REQUEST] 开始发送文本到AI，内容: %s", content)
 
 	// 构建请求URL
 	url := fmt.Sprintf("%s/chat/completions", s.baseURL)
@@ -77,6 +78,9 @@ func (s *AIService) ChatWithText(ctx context.Context, content string, streamCall
 		return err
 	}
 
+	// 记录请求详细信息
+	utils.Debugfc(ctx, "[AI_REQUEST] 请求URL: %s, 请求体: %s", url, string(jsonData))
+
 	// 创建HTTP请求
 	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewBuffer(jsonData))
 	if err != nil {
@@ -94,19 +98,22 @@ func (s *AIService) ChatWithText(ctx context.Context, content string, streamCall
 	// 发送请求
 	resp, err := s.client.Do(req)
 	if err != nil {
-		utils.Errorf("发送请求失败: %v", err)
+		utils.Errorfc(ctx, "[AI_REQUEST] 发送请求失败: %v, 耗时: %v", err, time.Since(startTime))
 		return err
 	}
 	defer resp.Body.Close()
 
 	// 检查响应状态
 	if resp.StatusCode != http.StatusOK {
-		utils.Errorf("请求失败，状态码: %d", resp.StatusCode)
+		utils.Errorfc(ctx, "[AI_REQUEST] 请求失败，状态码: %d, 耗时: %v", resp.StatusCode, time.Since(startTime))
 		return fmt.Errorf("请求失败，状态码: %d", resp.StatusCode)
 	}
 
+	// 记录响应状态
+	utils.Infofc(ctx, "[AI_REQUEST] 请求成功，状态码: %d, 耗时: %v", resp.StatusCode, time.Since(startTime))
+
 	// 处理SSE响应
-	utils.Infof("开始接收AI流式响应")
+	utils.Infofc(ctx, "[AI_RESPONSE] 开始接收AI流式响应")
 
 	// 创建SSE解析器
 	reader := bufio.NewReader(resp.Body)
@@ -117,10 +124,10 @@ func (s *AIService) ChatWithText(ctx context.Context, content string, streamCall
 		if err != nil {
 			if err == io.EOF {
 				// 流式响应结束
-				utils.Infof("AI流式响应结束")
+				utils.Infofc(ctx, "[AI_RESPONSE] AI流式响应结束，总耗时: %v", time.Since(startTime))
 				break
 			}
-			utils.Errorf("读取响应失败: %v", err)
+			utils.Errorfc(ctx, "[AI_RESPONSE] 读取响应失败: %v", err)
 			return err
 		}
 
@@ -146,16 +153,9 @@ func (s *AIService) ChatWithText(ctx context.Context, content string, streamCall
 				key := parts[0]
 				value := parts[1]
 
-				switch key {
-				case "id":
-					sseMessage.ID = value
-				case "event":
-					sseMessage.Event = value
-				case "data":
+				// 只处理data字段，其他字段暂时不需要
+				if key == "data" {
 					sseMessage.Data = value
-				case "retry":
-					// 解析重试时间（毫秒）
-					// 这里暂时忽略
 				}
 			}
 
@@ -176,7 +176,7 @@ func (s *AIService) ChatWithText(ctx context.Context, content string, streamCall
 				}
 
 				if err := json.Unmarshal([]byte(sseMessage.Data), &aiResponse); err != nil {
-					utils.Errorf("解析AI响应失败: %v", err)
+					utils.Errorfc(ctx, "[AI_RESPONSE] 解析AI响应失败: %v", err)
 					continue
 				}
 
@@ -185,7 +185,7 @@ func (s *AIService) ChatWithText(ctx context.Context, content string, streamCall
 					chunk := aiResponse.Choices[0].Delta.Content
 					if chunk != "" {
 						if err := streamCallback(chunk); err != nil {
-							utils.Errorf("流式响应回调处理失败: %v", err)
+							utils.Errorfc(ctx, "[AI_RESPONSE] 流式响应回调处理失败: %v", err)
 							return err
 						}
 					}
@@ -202,7 +202,10 @@ func (s *AIService) ChatWithText(ctx context.Context, content string, streamCall
 
 // ChatWithImage 与AI进行图片对话（流式）
 func (s *AIService) ChatWithImage(ctx context.Context, imageBase64 string, content string, streamCallback StreamResponseFunc) error {
-	utils.Infof("发送图片和文本到AI")
+	// 记录请求开始时间
+	startTime := time.Now()
+
+	utils.Infofc(ctx, "[AI_REQUEST] 开始发送图片和文本到AI")
 
 	// 构建请求URL
 	url := fmt.Sprintf("%s/chat/completions", s.baseURL)
@@ -236,7 +239,7 @@ func (s *AIService) ChatWithImage(ctx context.Context, imageBase64 string, conte
 	// 添加thinking参数
 	if s.thinking != "" {
 		reqBody["thinking"] = s.thinking
-		utils.Infof("设置AI思考模式: %s", s.thinking)
+		utils.Infofc(ctx, "[AI_REQUEST] 设置AI思考模式: %s", s.thinking)
 	}
 
 	// 转换为JSON
@@ -246,10 +249,13 @@ func (s *AIService) ChatWithImage(ctx context.Context, imageBase64 string, conte
 		return err
 	}
 
+	// 记录请求详细信息
+	utils.Debugfc(ctx, "[AI_REQUEST] 请求URL: %s, 请求体: %s", url, string(jsonData))
+
 	// 创建HTTP请求
 	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewBuffer(jsonData))
 	if err != nil {
-		utils.Errorf("创建请求失败: %v", err)
+		utils.Errorfc(ctx, "[AI_REQUEST] 创建请求失败: %v", err)
 		return err
 	}
 
@@ -263,19 +269,22 @@ func (s *AIService) ChatWithImage(ctx context.Context, imageBase64 string, conte
 	// 发送请求
 	resp, err := s.client.Do(req)
 	if err != nil {
-		utils.Errorf("发送请求失败: %v", err)
+		utils.Errorfc(ctx, "[AI_REQUEST] 发送请求失败: %v, 耗时: %v", err, time.Since(startTime))
 		return err
 	}
 	defer resp.Body.Close()
 
 	// 检查响应状态
 	if resp.StatusCode != http.StatusOK {
-		utils.Errorf("请求失败，状态码: %d", resp.StatusCode)
+		utils.Errorfc(ctx, "[AI_REQUEST] 请求失败，状态码: %d, 耗时: %v", resp.StatusCode, time.Since(startTime))
 		return fmt.Errorf("请求失败，状态码: %d", resp.StatusCode)
 	}
 
+	// 记录响应状态
+	utils.Infofc(ctx, "[AI_REQUEST] 请求成功，状态码: %d, 耗时: %v", resp.StatusCode, time.Since(startTime))
+
 	// 处理SSE响应
-	utils.Infof("开始接收AI流式响应")
+	utils.Infofc(ctx, "[AI_RESPONSE] 开始接收AI流式响应")
 
 	// 创建SSE解析器
 	reader := bufio.NewReader(resp.Body)
@@ -286,10 +295,10 @@ func (s *AIService) ChatWithImage(ctx context.Context, imageBase64 string, conte
 		if err != nil {
 			if err == io.EOF {
 				// 流式响应结束
-				utils.Infof("AI流式响应结束")
+				utils.Infofc(ctx, "[AI_RESPONSE] AI流式响应结束，总耗时: %v", time.Since(startTime))
 				break
 			}
-			utils.Errorf("读取响应失败: %v", err)
+			utils.Errorfc(ctx, "[AI_RESPONSE] 读取响应失败: %v", err)
 			return err
 		}
 
@@ -315,16 +324,9 @@ func (s *AIService) ChatWithImage(ctx context.Context, imageBase64 string, conte
 				key := parts[0]
 				value := parts[1]
 
-				switch key {
-				case "id":
-					sseMessage.ID = value
-				case "event":
-					sseMessage.Event = value
-				case "data":
+				// 只处理data字段，其他字段暂时不需要
+				if key == "data" {
 					sseMessage.Data = value
-				case "retry":
-					// 解析重试时间（毫秒）
-					// 这里暂时忽略
 				}
 			}
 
@@ -345,7 +347,7 @@ func (s *AIService) ChatWithImage(ctx context.Context, imageBase64 string, conte
 				}
 
 				if err := json.Unmarshal([]byte(sseMessage.Data), &aiResponse); err != nil {
-					utils.Errorf("解析AI响应失败: %v", err)
+					utils.Errorfc(ctx, "[AI_RESPONSE] 解析AI响应失败: %v", err)
 					continue
 				}
 
@@ -354,7 +356,7 @@ func (s *AIService) ChatWithImage(ctx context.Context, imageBase64 string, conte
 					chunk := aiResponse.Choices[0].Delta.Content
 					if chunk != "" {
 						if err := streamCallback(chunk); err != nil {
-							utils.Errorf("流式响应回调处理失败: %v", err)
+							utils.Errorfc(ctx, "[AI_RESPONSE] 流式响应回调处理失败: %v", err)
 							return err
 						}
 					}
