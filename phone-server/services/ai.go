@@ -371,19 +371,4 @@ func (s *AIService) ChatWithImage(ctx context.Context, imageBase64 string, conte
 	return nil
 }
 
-// ParseClientMessage 解析客户端消息
-func ParseClientMessage(message string) (string, string, error) {
-	// 简单的消息解析，实际应用中可以根据需要实现更复杂的解析逻辑
-	// 假设消息格式为：{"type":"text","content":"xxx"} 或 {"type":"image","content":"base64..."}
-	var msg struct {
-		Type    string `json:"type"`
-		Content string `json:"content"`
-	}
 
-	if err := json.Unmarshal([]byte(message), &msg); err != nil {
-		utils.Errorf("解析客户端消息失败: %v", err)
-		return "", "", err
-	}
-
-	return msg.Type, msg.Content, nil
-}

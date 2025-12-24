@@ -119,7 +119,7 @@ func (h *WebSocketHandler) handleConnection(conn *websocket.Conn, userID uint, c
 			utils.Infof("[WS] 用户 %d 收到WebSocket客户端消息: %s, 客户端IP: %s", userID, string(message), clientIP)
 
 			// 解析客户端消息
-			msgType, msgContent, err := services.ParseClientMessage(string(message))
+			msgType, msgContent, err := utils.ParseClientMessage(string(message))
 			if err != nil {
 				utils.Errorf("[WS] 解析客户端消息失败: %v, 用户ID: %d, 客户端IP: %s", err, userID, clientIP)
 				continue

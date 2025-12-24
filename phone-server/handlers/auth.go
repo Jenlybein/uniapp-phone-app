@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"net/http"
 	"phone-server/models"
 	"phone-server/utils"
 
@@ -58,27 +57,27 @@ type RefreshTokenRequest struct {
 func (h *AuthHandler) Register(c *gin.Context) {
 	var req RegisterRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"code": http.StatusBadRequest, "message": "请求参数错误: " + err.Error()})
+		utils.BadRequestResponse(c, "请求参数错误: "+err.Error())
 		return
 	}
 
 	// 检查用户名是否已存在
 	var existingUser models.User
 	if result := h.db.Where("username = ?", req.Username).First(&existingUser); result.RowsAffected > 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"code": http.StatusBadRequest, "message": "用户名已存在"})
+		utils.BadRequestResponse(c, "用户名已存在")
 		return
 	}
 
 	// 检查邮箱是否已存在
 	if result := h.db.Where("email = ?", req.Email).First(&existingUser); result.RowsAffected > 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"code": http.StatusBadRequest, "message": "邮箱已存在"})
+		utils.BadRequestResponse(c, "邮箱已存在")
 		return
 	}
 
 	// 生成密码哈希
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"code": http.StatusInternalServerError, "message": "密码加密失败"})
+		utils.InternalServerErrorResponse(c, "密码加密失败")
 		return
 	}
 
@@ -90,18 +89,18 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	}
 
 	if result := h.db.Create(&user); result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"code": http.StatusInternalServerError, "message": "用户创建失败: " + result.Error.Error()})
+		utils.InternalServerErrorResponse(c, "用户创建失败: "+result.Error.Error())
 		return
 	}
 
 	// 生成JWT令牌
 	token, err := utils.GenerateToken(user.ID, user.Username, h.jwtSecret, h.jwtExpire)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"code": http.StatusInternalServerError, "message": "令牌生成失败"})
+		utils.InternalServerErrorResponse(c, "令牌生成失败")
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"code": http.StatusOK, "message": "注册成功", "token": token})
+	utils.SuccessResponse(c, gin.H{"token": token, "message": "注册成功"})
 }
 
 // Login 处理用户登录请求
@@ -119,34 +118,33 @@ func (h *AuthHandler) Register(c *gin.Context) {
 func (h *AuthHandler) Login(c *gin.Context) {
 	var req LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"code": http.StatusBadRequest, "message": "请求参数错误: " + err.Error()})
+		utils.BadRequestResponse(c, "请求参数错误: "+err.Error())
 		return
 	}
 
 	// 查找用户
 	var user models.User
 	if result := h.db.Where("username = ?", req.Username).First(&user); result.Error != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"code": http.StatusUnauthorized, "message": "用户名或密码错误"})
+		utils.UnauthorizedResponse(c, "用户名或密码错误")
 		return
 	}
 
 	// 验证密码
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password)); err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"code": http.StatusUnauthorized, "message": "用户名或密码错误"})
+		utils.UnauthorizedResponse(c, "用户名或密码错误")
 		return
 	}
 
 	// 生成JWT令牌
 	token, err := utils.GenerateToken(user.ID, user.Username, h.jwtSecret, h.jwtExpire)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"code": http.StatusInternalServerError, "message": "令牌生成失败"})
+		utils.InternalServerErrorResponse(c, "令牌生成失败")
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code":    http.StatusOK,
+	utils.SuccessResponse(c, gin.H{
+		"token": token,
 		"message": "登录成功",
-		"token":   token,
 		"user": gin.H{
 			"id":       user.ID,
 			"username": user.Username,
@@ -170,49 +168,25 @@ func (h *AuthHandler) Login(c *gin.Context) {
 func (h *AuthHandler) RefreshToken(c *gin.Context) {
 	var req RefreshTokenRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"code": http.StatusBadRequest, "message": "请求参数错误: " + err.Error()})
+		utils.BadRequestResponse(c, "请求参数错误: "+err.Error())
 		return
 	}
 
 	// 解析旧Token
 	claims, err := utils.ParseToken(req.Token, h.jwtSecret)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"code": http.StatusUnauthorized, "message": "无效的Token: " + err.Error()})
+		utils.UnauthorizedResponse(c, "无效的Token: "+err.Error())
 		return
 	}
 
 	// 生成新Token
 	newToken, err := utils.GenerateToken(claims.UserID, claims.Username, h.jwtSecret, h.jwtExpire)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"code": http.StatusInternalServerError, "message": "令牌生成失败"})
+		utils.InternalServerErrorResponse(c, "令牌生成失败")
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"code": http.StatusOK, "message": "刷新成功", "token": newToken})
+	utils.SuccessResponse(c, gin.H{"token": newToken, "message": "刷新成功"})
 }
 
-// AuthMiddleware JWT认证中间件
-func AuthMiddleware(jwtSecret string) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		// 从Authorization头获取Token
-		authHeader := c.GetHeader("Authorization")
-		if authHeader == "" {
-			c.JSON(http.StatusUnauthorized, gin.H{"code": http.StatusUnauthorized, "message": "缺少Authorization头"})
-			c.Abort()
-			return
-		}
 
-		// 解析Token
-		claims, err := utils.ParseToken(authHeader, jwtSecret)
-		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"code": http.StatusUnauthorized, "message": "无效的Token: " + err.Error()})
-			c.Abort()
-			return
-		}
-
-		// 将用户信息存储到上下文
-		c.Set("userID", claims.UserID)
-		c.Set("username", claims.Username)
-		c.Next()
-	}
-}

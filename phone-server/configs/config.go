@@ -2,6 +2,7 @@ package configs
 
 import (
 	"flag"
+	"fmt"
 	"os"
 	"strconv"
 
@@ -49,6 +50,44 @@ type Config struct {
 	DatabaseConfig DatabaseConfig // 数据库配置
 	JWTConfig      JWTConfig      // JWT配置
 	LogConfig      LogConfig      // 日志配置
+}
+
+// Validate 验证配置的有效性
+func (c *Config) Validate() error {
+	// 验证服务器端口
+	if c.Port < 1 || c.Port > 65535 {
+		return fmt.Errorf("invalid port: %d, must be between 1 and 65535", c.Port)
+	}
+
+	// 验证JWT配置
+	if c.JWTConfig.SecretKey == "" {
+		return fmt.Errorf("JWT secret key cannot be empty")
+	}
+	if c.JWTConfig.ExpireHour <= 0 {
+		return fmt.Errorf("JWT expire hour must be positive")
+	}
+
+	// 验证数据库配置
+	if c.DatabaseConfig.Host == "" {
+		return fmt.Errorf("database host cannot be empty")
+	}
+	if c.DatabaseConfig.Port < 1 || c.DatabaseConfig.Port > 65535 {
+		return fmt.Errorf("invalid database port: %d, must be between 1 and 65535", c.DatabaseConfig.Port)
+	}
+	if c.DatabaseConfig.Username == "" {
+		return fmt.Errorf("database username cannot be empty")
+	}
+	if c.DatabaseConfig.DBName == "" {
+		return fmt.Errorf("database name cannot be empty")
+	}
+
+	// 验证日志配置
+	validLogLevels := map[string]bool{"DEBUG": true, "INFO": true, "WARN": true, "ERROR": true, "FATAL": true}
+	if !validLogLevels[c.LogConfig.Level] {
+		return fmt.Errorf("invalid log level: %s, must be one of DEBUG, INFO, WARN, ERROR, FATAL", c.LogConfig.Level)
+	}
+
+	return nil
 }
 
 // LoadConfig 加载配置
@@ -174,6 +213,12 @@ func LoadConfig() *Config {
 	}
 	if *jwtExpireFlag != 0 {
 		config.JWTConfig.ExpireHour = *jwtExpireFlag
+	}
+
+	// 验证配置有效性
+	if err := config.Validate(); err != nil {
+		fmt.Printf("Config validation failed: %v\n", err)
+		os.Exit(1)
 	}
 
 	return config

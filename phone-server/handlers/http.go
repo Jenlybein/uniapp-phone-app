@@ -60,20 +60,14 @@ func (h *HTTPHandler) SendTextMessage(c *gin.Context) {
 	// 绑定请求参数
 	if err := c.ShouldBindJSON(&req); err != nil {
 		utils.Errorf("绑定文本消息请求失败: %v", err)
-		c.JSON(http.StatusBadRequest, gin.H{
-			"code":    http.StatusBadRequest,
-			"message": "请求参数错误",
-		})
+		utils.BadRequestResponse(c, "请求参数错误")
 		return
 	}
 
 	// 从上下文获取用户ID
 	userID, exists := c.Get("userID")
 	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"code":    http.StatusUnauthorized,
-			"message": "未授权的请求",
-		})
+		utils.UnauthorizedResponse(c, "未授权的请求")
 		return
 	}
 
@@ -83,10 +77,7 @@ func (h *HTTPHandler) SendTextMessage(c *gin.Context) {
 	// 将消息存储到数据库
 	if result := h.db.Create(message); result.Error != nil {
 		utils.Errorf("保存文本消息失败: %v", result.Error)
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": "保存消息失败",
-		})
+		utils.InternalServerErrorResponse(c, "保存消息失败")
 		return
 	}
 
@@ -96,10 +87,7 @@ func (h *HTTPHandler) SendTextMessage(c *gin.Context) {
 	utils.Infof("用户 %d 发送文本消息: %s", userID.(uint), req.Content)
 
 	// 返回成功响应
-	c.JSON(http.StatusOK, gin.H{
-		"code":    http.StatusOK,
-		"message": "消息发送成功",
-	})
+	utils.SuccessResponse(c, gin.H{"message": "消息发送成功"})
 }
 
 // SendImageMessage 处理发送图片消息的HTTP请求
@@ -119,10 +107,7 @@ func (h *HTTPHandler) SendImageMessage(c *gin.Context) {
 	file, _, err := c.Request.FormFile("image")
 	if err != nil {
 		utils.Errorf("获取图片文件失败: %v", err)
-		c.JSON(http.StatusBadRequest, gin.H{
-			"code":    http.StatusBadRequest,
-			"message": "获取图片文件失败",
-		})
+		utils.BadRequestResponse(c, "获取图片文件失败")
 		return
 	}
 	defer file.Close()
@@ -131,10 +116,7 @@ func (h *HTTPHandler) SendImageMessage(c *gin.Context) {
 	fileContent, err := io.ReadAll(file)
 	if err != nil {
 		utils.Errorf("读取图片文件失败: %v", err)
-		c.JSON(http.StatusBadRequest, gin.H{
-			"code":    http.StatusBadRequest,
-			"message": "读取图片文件失败",
-		})
+		utils.BadRequestResponse(c, "读取图片文件失败")
 		return
 	}
 
@@ -159,10 +141,7 @@ func (h *HTTPHandler) SendImageMessage(c *gin.Context) {
 	// 将消息存储到数据库
 	if result := h.db.Create(message); result.Error != nil {
 		utils.Errorf("保存图片消息失败: %v", result.Error)
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code":    http.StatusInternalServerError,
-			"message": "保存消息失败",
-		})
+		utils.InternalServerErrorResponse(c, "保存消息失败")
 		return
 	}
 
@@ -172,10 +151,7 @@ func (h *HTTPHandler) SendImageMessage(c *gin.Context) {
 	utils.Infof("用户 %d 发送图片消息，大小: %d bytes", userID.(uint), len(fileContent))
 
 	// 返回成功响应
-	c.JSON(http.StatusOK, gin.H{
-		"code":    http.StatusOK,
-		"message": "图片发送成功",
-	})
+	utils.SuccessResponse(c, gin.H{"message": "图片发送成功"})
 }
 
 // ChatWithAI 处理与AI聊天的HTTP请求
@@ -197,10 +173,7 @@ func (h *HTTPHandler) ChatWithAI(c *gin.Context) {
 	// 从上下文获取用户ID
 	_, exists := c.Get("userID")
 	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"code":    http.StatusUnauthorized,
-			"message": "未授权的请求",
-		})
+		utils.UnauthorizedResponse(c, "未授权的请求")
 		return
 	}
 
@@ -209,10 +182,7 @@ func (h *HTTPHandler) ChatWithAI(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		utils.Errorf("绑定AI聊天请求失败: %v", err)
-		c.JSON(http.StatusBadRequest, gin.H{
-			"code":    http.StatusBadRequest,
-			"message": "请求参数错误",
-		})
+		utils.BadRequestResponse(c, "请求参数错误")
 		return
 	}
 
@@ -295,17 +265,11 @@ func (h *HTTPHandler) ChatWithAI(c *gin.Context) {
 
 		if err != nil {
 			utils.Errorf("AI聊天失败: %v", err)
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"code":    http.StatusInternalServerError,
-				"message": "AI请求失败，请稍后重试",
-			})
+			utils.InternalServerErrorResponse(c, "AI请求失败，请稍后重试")
 			return
 		}
 
 		// 返回完整的JSON响应
-		c.JSON(http.StatusOK, gin.H{
-			"code":    http.StatusOK,
-			"content": fullResponse.String(),
-		})
+		utils.SuccessResponse(c, gin.H{"content": fullResponse.String()})
 	}
 }
